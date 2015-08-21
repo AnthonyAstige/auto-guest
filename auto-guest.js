@@ -33,7 +33,9 @@ if (Meteor.isClient) {
 				}
 				Meteor.loginWithPassword(options.username, options.password, function() {
 					Session.set('AutoGuest.creatingUser', false);
-					cb();
+					if (cb) {
+						cb();
+					}
 				});
 			};
 			Accounts.createUser(options, created);
