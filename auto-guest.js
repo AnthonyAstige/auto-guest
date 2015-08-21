@@ -1,14 +1,6 @@
 'use strict';
 /*global Meteor, AutoGuest, Accounts, Random, Session */
 
-/**
- * Simple package that creates a guest account for non-logged in users
- *
- * Call AutoGuest.go([callback]) to execute
- *
- * callback is only called if user was just created
- */
-
 if (Meteor.isClient) {
 	var	generateUsername = function() {
 		var randomDigits = function(n) {
