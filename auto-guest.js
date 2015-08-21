@@ -1,5 +1,5 @@
 'use strict';
-/*global Meteor, AutoGuest, Accounts, Random, Session */
+/*global Meteor, AutoGuest, Accounts, Random, Session, Tracker */
 
 if (Meteor.isClient) {
 	var	generateUsername = function() {
@@ -18,27 +18,29 @@ if (Meteor.isClient) {
 	};
 
 	AutoGuest.go = function(cb) {
-		if (!Meteor.user() && !Session.get('AutoGuest.creatingUser')) {
-			Session.set('AutoGuest.creatingUser', true);
-			var options = {
-				username: generateUsername(),
-				password: generatePassword(),
-				profile: { guest: true }
-			};
-			var created = function(err) {
-				if (err && (err.reason === 'Username already exists.')) {
-					options.username = generateUsername();
-					Accounts.createUser(options, created);
-					return;
-				}
-				Meteor.loginWithPassword(options.username, options.password, function() {
-					Session.set('AutoGuest.creatingUser', false);
-					if (cb) {
-						cb();
+		Tracker.autorun(function() {
+			if (!Meteor.user() && !Session.get('AutoGuest.creatingUser')) {
+				Session.set('AutoGuest.creatingUser', true);
+				var options = {
+					username: generateUsername(),
+					password: generatePassword(),
+					profile: { guest: true }
+				};
+				var created = function(err) {
+					if (err && (err.reason === 'Username already exists.')) {
+						options.username = generateUsername();
+						Accounts.createUser(options, created);
+						return;
 					}
-				});
-			};
-			Accounts.createUser(options, created);
-		}
+					Meteor.loginWithPassword(options.username, options.password, function() {
+						Session.set('AutoGuest.creatingUser', false);
+						if (cb) {
+							cb();
+						}
+					});
+				};
+				Accounts.createUser(options, created);
+			}
+		});
 	};
 }

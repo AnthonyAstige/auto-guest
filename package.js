@@ -3,7 +3,7 @@
 
 Package.describe({
   summary: 'Automatic guest creation',
-  version: '0.0.2',
+  version: '0.0.3',
   name:'anthonyastige:auto-guest',
   git:'git@github.com:AnthonyAstige/auto-guest.git'
 });
