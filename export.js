@@ -1,0 +1,1 @@
+AutoGuest = {}; // jshint undef:false
