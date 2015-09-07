@@ -7,6 +7,7 @@ Creates a guest account for non-logged in users
  1. I have a MeteorPackages folder in my home directory
  2. Then I clone this package to there
  3. Then I create a symlink
+ 4. DEV TODO: See if I can get the package automatically included in dependencies.
 
 ## Functionality
 
