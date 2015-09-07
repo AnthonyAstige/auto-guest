@@ -1,5 +1,5 @@
 'use strict';
-/*global Package*/
+/*global Package, Meteor*/
 
 Package.describe({
   summary: 'Automatic guest creation',
@@ -17,10 +17,13 @@ Package.onUse(function(api) {
 		'random'
 	]);
 
-	api.addFiles([
-		'export.js',
-		'auto-guest.js'
-	]);
+	api.addFiles(
+		[
+			'export.js',
+			'auto-guest.js'
+		],
+		'client'
+	);
 
-	api.export('AutoGuest');
+	api.export('AutoGuest', 'client');
 });
