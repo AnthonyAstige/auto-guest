@@ -20,7 +20,7 @@ if (Meteor.isServer) {
 	Meteor.methods({
 		'AutoGuestValidateCreateUser': function(options) {
 			// Check if username taken
-			if (Meteor.users.findOne({ username: options.username })) {
+			if (options.username && Meteor.users.findOne({ username: options.username })) {
 				throw new Meteor.Error('username-taken', 'Username already registered.');
 			}
 
@@ -37,9 +37,14 @@ if (Meteor.isServer) {
 		},
 		'AutoGuestUpdateUser': function(options) {
 			var set = {
-				username: options.username,
 				'profile.guest': false
 			};
+			var unset = { };
+			if (options.username) {
+				set.username = options.username;
+			} else {
+				unset.username = 1;
+			}
 			if (options.email) {
 				set.emails = [{
 					address: options.email,
@@ -47,11 +52,15 @@ if (Meteor.isServer) {
 				}];
 			}
 
-			Meteor.users.update(Meteor.user()._id, { $set: set }, {}, function(error) {
-				if (error) {
-					throw new Meteor.Error('problem-updating-user', 'Problem updating user');
+			Meteor.users.update(Meteor.user()._id,
+				{ $set: set, $unset: unset },
+				{},
+				function(error) {
+					if (error) {
+						throw new Meteor.Error('problem-updating-user', 'Problem updating user');
+					}
 				}
-			});
+			);
 		}
 	});
 }
