@@ -16,3 +16,24 @@ Meteor.methods({
 		}
 	}
 });
+if (Meteor.isServer) {
+	Meteor.methods({
+		'AutoGuestValidateCreateUser': function(options) {
+			// Check if username taken
+			if (Meteor.users.findOne({ username: options.username })) {
+				throw new Meteor.Error('username-taken', 'Username already registered.');
+			}
+
+			// Check if email address taken
+			if (options.email) {
+				var found = Meteor.users.find({ 'emails.address': options.email });
+				if (found.count()) {
+					throw new Meteor.Error('email-taken', 'Email already registered.');
+				}
+			}
+
+			// No problem
+			return false;
+		}
+	});
+}
