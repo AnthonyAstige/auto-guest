@@ -46,8 +46,6 @@ AutoGuest.go = function(cb) {
 /*
  * Like Account.createUser but presumes we start with an existing guest user
  * * Same parameters & callback use
- *
- * TODO: Pass real error objects to callbacks
  */
 AutoGuest.createUser = function(options, callback) {
 	// Check for errors
@@ -59,7 +57,8 @@ AutoGuest.createUser = function(options, callback) {
 		// Update password (do first as checks if user is a guest)
 		Meteor.call('AutoGuestSetAccountPassword', options.password, function(error) {
 			if (error) {
-				callback(true);
+				callback(new Meteor.Error('problem-setting-password',
+					'Problem setting password'));
 				return;
 			}
 
@@ -76,7 +75,8 @@ AutoGuest.createUser = function(options, callback) {
 			}
 			Meteor.users.update(Meteor.user()._id, { $set: set }, {}, function(error) {
 				if (error) {
-					callback(true);
+					callback(new Meteor.Error('problem-updating-user',
+						'Problem updating user'));
 					return;
 				}
 				callback(false);
