@@ -66,19 +66,23 @@ AutoGuest.createUser = function(options, callback) {
 	// Check for errors
 	Meteor.call('AutoGuestValidateCreateUser', options, function(error) {
 		if (error) {
-			return callback(error);
+			callback(error);
+			return;
 		}
 		// Update password
 		Meteor.call('AutoGuestSetAccountPassword', options.password, function(error) {
 			if (error) {
-				return callback(true);
+				callback(true);
+				return;
 			}
 			// Update user
 			Meteor.users.update(userId, { $set: set }, {}, function(error) {
 				if (error) {
-					return callback(true);
+					callback(true);
+					return;
 				}
-				return callback(false);
+				callback(false);
+				return;
 			});
 		});
 	});
