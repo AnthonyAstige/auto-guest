@@ -21,6 +21,6 @@ The optional callback method is called whenever a new guest user is created.
 
 ### anthonyastige-auto-guest-accounts-ui-unstyled
 
-Including this package fixes the standard {{> loginButtons}} so a guest user works more like logged out state.
+Makes {{> loginButtons}} work for guest users (emulates logged out state, updates ratehr than creates, ....)
 
-This package has not been tested to work in all cases like external accounts, etc.  Though it should be fairly easy to modify so it does work if you want to send a pull request.
+This package has not been tested in all cases facebook/google/etc logins, etc.  Though I expect it to be fairly easy to modify and I welcome pull requests.
