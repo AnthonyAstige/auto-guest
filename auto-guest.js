@@ -42,3 +42,36 @@ AutoGuest.go = function(cb) {
 		}
 	});
 };
+
+/*
+ * Like Account.createUser but presumes we start with an existing guest user
+ * * Same parameters & callback use
+ */
+AutoGuest.createUser = function(options, callback) {
+	// AutoGuest: Instead of creating a new user, update guest user
+	var userId = Meteor.user()._id;
+	var set = {
+		username: options.username,
+		'profile.guest': false
+	};
+	if (options.email) {
+		set.emails = [{
+			address: options.email,
+			verified: false
+		}];
+	}
+	// TODO: Return object with reason if username or email already taken
+	Meteor.call('AutoGuestSetAccountPassword', options.password, function(error) {
+		if (error) {
+			callback(true);
+		} else {
+			Meteor.users.update(userId, { $set: set }, {}, function(error) {
+				if (error) {
+					callback(true);
+				} else {
+					callback(false);
+				}
+			});
+		}
+	});
+};
