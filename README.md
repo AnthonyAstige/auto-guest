@@ -23,4 +23,6 @@ The optional callback method is called whenever a new guest user is created.
 
 Makes {{> loginButtons}} work for guest users (emulates logged out state, updates ratehr than creates, ....)
 
+Since this is over-riding a package and not using the standard versioning system, you'll have to manually update your clone.
+
 This package has not been tested in all cases facebook/google/etc logins, etc.  Though I expect it to be fairly easy to modify and I welcome pull requests.
