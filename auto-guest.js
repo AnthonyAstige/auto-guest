@@ -50,33 +50,31 @@ AutoGuest.go = function(cb) {
  * TODO: Pass real error objects to callbacks
  */
 AutoGuest.createUser = function(options, callback) {
-	// Setup
-	var userId = Meteor.user()._id;
-	var set = {
-		username: options.username,
-		'profile.guest': false
-	};
-	if (options.email) {
-		set.emails = [{
-			address: options.email,
-			verified: false
-		}];
-	}
-
 	// Check for errors
 	Meteor.call('AutoGuestValidateCreateUser', options, function(error) {
 		if (error) {
 			callback(error);
 			return;
 		}
-		// Update password
+		// Update password (do first as checks if user is a guest)
 		Meteor.call('AutoGuestSetAccountPassword', options.password, function(error) {
 			if (error) {
 				callback(true);
 				return;
 			}
+
 			// Update user
-			Meteor.users.update(userId, { $set: set }, {}, function(error) {
+			var set = {
+				username: options.username,
+				'profile.guest': false
+			};
+			if (options.email) {
+				set.emails = [{
+					address: options.email,
+					verified: false
+				}];
+			}
+			Meteor.users.update(Meteor.user()._id, { $set: set }, {}, function(error) {
 				if (error) {
 					callback(true);
 					return;
