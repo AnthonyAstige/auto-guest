@@ -2,13 +2,13 @@ Creates a guest account for non-logged in users
 
 ## Installation
 
-1. Run `AutoGuest.go([callback])` somewhere from the client where it will only be called once.
-2. Add package `anthonyastige-auto-guest-accounts-ui-unstyled` so it overrides `accounts-ui-unstyled`
- 1. I have a MeteorPackages folder in my home directory
- 2. Then I clone this package to there
- 3. Then I create a symlink
- 4. DEV TODO: See if I can get the package automatically included in dependencies.
- 5. NOTE: This package has not been tested to work in all cases like external accounts, etc.  Though it should be fairly easy to modify so it does work if you want to send a pull request.
+1. Run `meteor add anthonyastige-auto-guest`
+2. Add `AutoGuest.go([callback])` to your code to be called once from the client
+3. Optional: Override `accounts-ui-unstyled` with `anthonyastige-auto-guest-accounts-ui-unstyled`
+ 1. `cd ~` (Or wherever you want to put this)
+ 2. `git clone git@github.com:AnthonyAstige/auto-guest-accounts-ui-unstyled.git`
+ 3. `cd ~/myProject/packages` (Get into your project's packages folder)
+ 4. `ln -s ~/auto-guest-accounts-ui-unstyled accounts-ui-unstyled`
 
 ## Functionality
 
@@ -18,3 +18,9 @@ Whenever the current session has no user, create and log into a guest account.
 * When logged out
 
 The optional callback method is called whenever a new guest user is created.
+
+### anthonyastige-auto-guest-accounts-ui-unstyled
+
+Including this package fixes the standard {{> loginButtons}} so a guest user works more like logged out state.
+
+This package has not been tested to work in all cases like external accounts, etc.  Though it should be fairly easy to modify so it does work if you want to send a pull request.
