@@ -57,30 +57,16 @@ AutoGuest.createUser = function(options, callback) {
 		// Update password (do first as checks if user is a guest)
 		Meteor.call('AutoGuestSetAccountPassword', options.password, function(error) {
 			if (error) {
-				callback(new Meteor.Error('problem-setting-password',
-					'Problem setting password'));
+				callback(error);
 				return;
 			}
-
-			// Update user
-			var set = {
-				username: options.username,
-				'profile.guest': false
-			};
-			if (options.email) {
-				set.emails = [{
-					address: options.email,
-					verified: false
-				}];
-			}
-			Meteor.users.update(Meteor.user()._id, { $set: set }, {}, function(error) {
+			// Update user data
+			Meteor.call('AutoGuestUpdateUser', options, function(error) {
 				if (error) {
-					callback(new Meteor.Error('problem-updating-user',
-						'Problem updating user'));
+					callback(error);
 					return;
 				}
-				callback(false);
-				return;
+				callback();
 			});
 		});
 	});

@@ -8,7 +8,7 @@ Meteor.methods({
 
 			// Only set guest user passwords (this may be a little unsecure)
 			if (!user || !user.profile || !user.profile.guest) {
-				return false;
+				throw new Meteor.Error('problem-setting-password', 'Problem setting password');
 			}
 
 			// Set the password to passed
@@ -34,6 +34,24 @@ if (Meteor.isServer) {
 
 			// No problem
 			return false;
+		},
+		'AutoGuestUpdateUser': function(options) {
+			var set = {
+				username: options.username,
+				'profile.guest': false
+			};
+			if (options.email) {
+				set.emails = [{
+					address: options.email,
+					verified: false
+				}];
+			}
+
+			Meteor.users.update(Meteor.user()._id, { $set: set }, {}, function(error) {
+				if (error) {
+					throw new Meteor.Error('problem-updating-user', 'Problem updating user');
+				}
+			});
 		}
 	});
 }
