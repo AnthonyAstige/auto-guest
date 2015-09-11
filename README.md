@@ -13,7 +13,7 @@ Creates a guest account for non-logged in users
     1. Option2: With `auto-guest-meteor-accounts-ui-bootstrap-3`
      1. `meteor remove accounts-ui`
      2. `meteor add anthonyastige:auto-guest-meteor-accounts-ui-bootstrap-3`
-     3. Follow instructions from [anthonyastige:auto-guest-meteor-accounts-ui-bootstrap-3] ( https://github.com/AnthonyAstige/auto-guest-meteor-accounts-ui-bootstrap-3) (Note: Instruction not fully updated as it's a quick fork)
+     3. Follow instructions from [anthonyastige:auto-guest-meteor-accounts-ui-bootstrap-3] ( https://github.com/AnthonyAstige/auto-guest-meteor-accounts-ui-bootstrap-3) (Note: Instructions not updated to new fork name as it's a quick fork)
 
 ## Functionality
 
