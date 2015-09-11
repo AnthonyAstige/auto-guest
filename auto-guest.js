@@ -18,7 +18,9 @@ var generatePassword = function() {
 
 AutoGuest.go = function(cb) {
 	Tracker.autorun(function() {
-		if (!Meteor.user() && !Session.get('AutoGuest.creatingUser')) {
+		var user = Meteor.user();
+		// Note: undefined means user collection hasn't yet loaded
+		if ((user !== undefined) && !user && !Session.get('AutoGuest.creatingUser')) {
 			Session.set('AutoGuest.creatingUser', true);
 			var options = {
 				username: generateUsername(),
